@@ -254,3 +254,25 @@ def edit_meep(request, pk):
 	else:
 		messages.success(request, ("You Must Be Logged In To Delete!"))
 		return redirect('home')
+	
+def search(request):
+	if request.method == "POST": #If the user filled out the text box and pressed the enter key...
+		# Grab the form field input
+		search = request.POST['search']
+		# Search the database
+		searched = Meep.objects.filter(body__contains = search)
+		return render(request, 'search.html', {'search':search, 'searched':searched})
+
+	else: 
+		return render(request, 'search.html', {})
+	
+def search_user(request):
+	if request.method == "POST": #If the user filled out the text box and pressed the enter key...
+		# Grab the form field input
+		search = request.POST['search']
+		# Search the database
+		searched = User.objects.filter(username__contains = search)
+		return render(request, 'search_user.html', {'search':search, 'searched':searched})
+
+	else: 
+		return render(request, 'search_user.html', {})
